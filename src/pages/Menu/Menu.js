@@ -1,26 +1,24 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"; // remove later when fix router
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { GetProductsThunk } from "../../store/productsSlice"; // remove later when fix router
+import { GetProductsThunk, addCartProduct } from "../../store/productsSlice";
 import { AllProducts } from "../../components";
 
 const Menu = () => {
   const { filterBy } = useParams();
-  const dispatch = useDispatch(); // remove later when fix router
+  const dispatch = useDispatch();
   const products = useSelector((state) => state.products);
   const product = products?.products?.filter((item) => item._id === filterBy)[0];
 
   useEffect(() => {
-    // remove later when fix router
     dispatch(GetProductsThunk());
   }, [dispatch]);
 
   const handleAddCartProduct = (e) => {
-    // dispatch(addCartItem(productDisplay))
+    dispatch(addCartProduct(product));
   };
 
   const handleBuy = () => {
-    // dispatch(addCartItem(productDisplay))
     // navigate("/cart")
   };
 

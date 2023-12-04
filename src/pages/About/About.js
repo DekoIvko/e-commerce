@@ -1,8 +1,12 @@
 import React from "react";
 
 const About = () => {
-  console.log("aaaaaaaaaaaaaaaaaaaaaaa");
-  return <div>About</div>;
+  return (
+    <div>
+      <span>Linkdin: www.linkedin.com/in/dejan-ivkovski</span>
+      <span>Github: https://github.com/DekoIvko</span>
+    </div>
+  );
 };
 
 export default About;

@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state.user.user);
+  const cartProducts = useSelector((state) => state.products.cartProducts);
   const dispatch = useDispatch();
   console.log(user);
   const handleShowMenu = () => {
@@ -37,8 +38,13 @@ const Header = () => {
             <Link to={"contact"}>Contact</Link>
           </nav>
           <div className='text-2xl text-slate-600 relative'>
-            <BsFillCartFill />
-            <div className='absolute -top-1 -right-1 text-white bg-red-500 h-4 w-4 rounded-full m-0 p-0 text-sm text-center'>0</div>
+            <Link to='/cart'>
+              {" "}
+              <BsFillCartFill />{" "}
+              <div className='absolute -top-1 -right-1 text-white bg-red-500 h-4 w-4 rounded-full m-0 p-0 text-sm text-center'>
+                {cartProducts?.length}
+              </div>
+            </Link>
           </div>
           <div className='text-slate-600' onClick={handleShowMenu}>
             <div className='text-3xl cursor-pointer overflow-hidden drop-shadow-md'>

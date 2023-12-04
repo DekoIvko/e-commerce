@@ -1,29 +1,74 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import Menu from "./pages/Menu/Menu";
-import About from "./pages/About/About";
-import Contact from "./pages/Contact/Contact";
-import Login from "./pages/Login/Login";
-import NewProduct from "./pages/NewProduct/NewProduct";
+
 import Home from "./pages/Home/Home";
 import SignUp from "./pages/SignUp/SignUp";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
+const LazyMenu = React.lazy(() => import("./pages/Menu/Menu"));
+const LazyLogin = React.lazy(() => import("./pages/Login/Login"));
+const LazyAbout = React.lazy(() => import("./pages/About/About"));
+const LazyContact = React.lazy(() => import("./pages/Contact/Contact"));
+const LazyCart = React.lazy(() => import("./pages/Cart/Cart"));
+const LazyNewProduct = React.lazy(() => import("./pages/NewProduct/NewProduct"));
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index element={<Home />} />
-      {/* <Route path='menu' element={<Menu />} /> */}
-      <Route path='menu/:filterBy' element={<Menu />} />
-      <Route path='about' element={<About />} />
-      <Route path='contact' element={<Contact />} />
-      <Route path='login' element={<Login />} />
-      <Route path='newProduct' element={<NewProduct />} />
+      <Route
+        path='menu/:filterBy'
+        element={
+          <Suspense fallback='Loading...'>
+            <LazyMenu />
+          </Suspense>
+        }
+      />
+      <Route
+        path='about'
+        element={
+          <Suspense fallback='Loading...'>
+            <LazyAbout />
+          </Suspense>
+        }
+      />
+      <Route
+        path='contact'
+        element={
+          <Suspense fallback='Loading...'>
+            <LazyContact />
+          </Suspense>
+        }
+      />
+      <Route
+        path='login'
+        element={
+          <Suspense fallback='Loading...'>
+            <LazyLogin />
+          </Suspense>
+        }
+      />
+      <Route
+        path='cart'
+        element={
+          <Suspense fallback='Loading..'>
+            <LazyCart />
+          </Suspense>
+        }
+      />
+      <Route
+        path='newProduct'
+        element={
+          <Suspense fallback='Loading...'>
+            <LazyNewProduct />
+          </Suspense>
+        }
+      />
       <Route path='signup' element={<SignUp />} />
     </Route>
   )
