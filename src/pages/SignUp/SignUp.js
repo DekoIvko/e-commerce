@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { BiShow, BiHide } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { imageToBase64 } from "../../utils/utils";
+import { appConfig } from "../../appConfig";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    image: "",
   });
-  console.log(data);
+
   const handleShowPassword = () => {
     setShowPassword((prevObj) => !prevObj);
   };
@@ -24,29 +29,57 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleUploadProfileImage = async (e) => {
+    const data = await imageToBase64(e.target.files[0]);
+    setData((prevObj) => {
+      return { ...prevObj, image: data };
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, password } = data;
-    if (firstName && lastName && email && password) {
-      alert("OK!");
-    } else {
-      alert("NOT OK!");
+    try {
+      const { firstName, lastName, email, password } = data;
+      if (firstName && lastName && email && password) {
+        const fetchData = await fetch(`${appConfig.baseApiURL}/singup`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const res = await fetchData.json();
+
+        toast(res.message);
+        if (res.alert) navigate("/login");
+      } else {
+        toast("Please enter required fields!");
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
   return (
     <div className='p-3 md:p-4'>
       <div className='w-full max-w-md bg-white m-auto flex flex-col p-4'>
-        {/* <h1 className='text-center text-2xl font-bold'>Sign Up</h1> */}
-        <div className='overflow-hidden rounded-full drop-shadow-md shadow-md m-auto'>
-          <AiOutlineUserAdd className='text-5xl' />
+        <div className='w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative'>
+          {data.image ? <img src={data.image} alt='profile' className='w-full h-full' /> : <AiOutlineUserAdd className='text-6xl ml-2 pb-2' />}
+          <label htmlFor='profile-image'>
+            <div className='absolute bottom-0 h-1/3 bg-slate-500 bg-opacity-50 w-full text-center cursor-pointer'>
+              <p className='text-sm text-white'>Upload</p>
+            </div>
+            <input type='file' id='profile-image' className='hidden' onChange={handleUploadProfileImage} />
+          </label>
         </div>
+
         <form className='w-full py-3 flex flex-col'>
           <label htmlFor='firstName'>First Name</label>
           <input
             type='text'
             id='firstName'
             name='firstName'
+            required
             placeholder='Please write you First name'
             className='mt-1 mb-2 w-full bg-slate-200 p-1 px-2 py-1 rounded focus-within:outline-blue-300'
             value={data?.firstName}
