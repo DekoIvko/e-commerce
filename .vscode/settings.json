@@ -1,0 +1,6 @@
+{
+  "git.ignoreLimitWarning": true,
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+  "emmet.preferences": {},
+  "cSpell.words": ["ematija", "signup", "toastify"]
+}

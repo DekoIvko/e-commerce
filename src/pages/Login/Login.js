@@ -4,7 +4,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { appConfig } from "../../appConfig";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/userSlice";
 
 const Login = () => {
@@ -15,8 +15,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const user = useSelector((state) => state.user);
-  console.log(user);
+
   const handleShowPassword = () => {
     setShowPassword((prevObj) => !prevObj);
   };
