@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
@@ -51,7 +51,6 @@ const Login = () => {
 
   return (
     <div className='p-3 md:p-4'>
-      <Toaster />
       <div className='w-full max-w-md bg-white m-auto flex flex-col p-4'>
         <div className='overflow-hidden rounded-full drop-shadow-md shadow-md m-auto'>
           <AiOutlineUserAdd className='text-5xl' />
